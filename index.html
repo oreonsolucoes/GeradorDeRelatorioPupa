@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Gerador de Relatório R&S Corporativo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="no-print screen-container">
+        <h1>Relatório Diário RH - Pupa</h1>
+
+        <div class="form-grid">
+            <section class="form-section full">
+                <h3>Informações da Vaga</h3>
+                <div class="row">
+                    <div class="field"><label>Vaga (Maiúsculo Automático):</label>
+                        <input type="text" id="vaga" value="AUXILIAR LOGÍSTICO"
+                            oninput="this.value = this.value.toUpperCase()">
+                    </div>
+                    <div class="field">
+                        <label>Período do Processo:</label>
+                        <input type="text" id="periodo">
+                    </div>
+                    
+                    <div class="field">
+                        <label>Data de Emissão:</label>
+                        <input type="date" id="data_emissao">
+                    </div>
+
+                </div>
+            </section>
+
+            <section class="form-section">
+                <h3>Indicadores Quantitativos</h3>
+                <div class="row-multi">
+                    <div class="field-num"><label>Triados:</label><input type="number" id="triados" value="0"></div>
+                    <div class="field-num"><label>Entrevistas:</label><input type="number" id="entrevistas" value="0">
+                    </div>
+                    <div class="field-num"><label>Finalistas:</label><input type="number" id="finalistas" value="0">
+                    </div>
+                    <div class="field-num"><label>Desistentes:</label><input type="number" id="desistentes" value="0">
+                    </div>
+                    <div class="field-num"><label>Inaptos:</label><input type="number" id="inaptos" value="0"></div>
+                    <div class="field-num"><label>Antecedentes:</label><input type="number" id="antecedentes" value="0">
+                    </div>
+                    <div class="field-num"><label>Vagas Aberto:</label><input type="number" id="vagas_aberto"
+                            value="16"></div>
+                    <div class="field-num"><label>Aprovados:</label><input type="number" id="aprovados" value="0"></div>
+                    <div class="field-num"><label>Reprovados:</label><input type="number" id="reprovados" value="0">
+                    </div>
+                </div>
+            </section>
+
+            <section class="form-section">
+                <h3>Candidatos e Status</h3>
+                <div id="container-candidatos">
+                </div>
+                <button type="button" class="btn-add" onclick="addCandidato()">+ Adicionar Candidato</button>
+            </section>
+
+            <section class="form-section">
+                <h3>Recrutamento e Seleção – Detalhes</h3>
+            
+                <div class="row-multi">
+                    <div class="field-num">
+                        <label>Vagas em aberto</label>
+                        <input type="number" id="rs_vagas_aberto" value="0">
+                    </div>
+            
+                    <div class="field-num">
+                        <label>Candidatos abordados</label>
+                        <input type="number" id="rs_abordados" value="0">
+                    </div>
+            
+                    <div class="field-num">
+                        <label>Aprovados</label>
+                        <input type="number" id="rs_aprovados" value="0">
+                    </div>
+            
+                    <div class="field-num">
+                        <label>Reprovados</label>
+                        <input type="number" id="rs_reprovados" value="0">
+                    </div>
+            
+                    <div class="field-num">
+                        <label>Enviados p/ antecedentes</label>
+                        <input type="number" id="rs_antecedentes" value="0">
+                    </div>
+            
+                    <div class="field-num">
+                        <label>Aprovados antecedentes</label>
+                        <input type="number" id="rs_aprovados_antecedentes" value="0">
+                    </div>
+            
+                    <div class="field-num">
+                        <label>Enviados para exame</label>
+                        <input type="number" id="rs_exame" value="0">
+                    </div>
+            
+                    <div class="field-num">
+                        <label>Integração</label>
+                        <input type="text" id="rs_integracao" value="Segunda-feira">
+                    </div>
+            
+                    <div class="field-num">
+                        <label>Demissão</label>
+                        <input type="number" id="rs_demissao" value="0">
+                    </div>
+            
+                    <div class="field-num">
+                        <label>Quantidade solicitada</label>
+                        <input type="number" id="rs_qtd_solicitada" value="0">
+                    </div>
+            
+                    <div class="field-num">
+                        <label>Enviados</label>
+                        <input type="number" id="rs_enviados" value="0">
+                    </div>
+                </div>
+            </section>
+
+
+            <section class="form-section">
+                <h3>Controle de EPI´s</h3>
+            
+                <div class="epi-group">
+                    <h4>Botas</h4>
+                    <div id="epi-botas"></div>
+                    <button type="button" class="btn-add-epi" onclick="addEpiLinha('botas')">
+                        + Adicionar Botas
+                    </button>
+                </div>
+            
+                <div class="epi-group">
+                    <h4>Camisetas</h4>
+                    <div id="epi-camisetas"></div>
+                    <button type="button" class="btn-add-epi" onclick="addEpiLinha('camisetas')">
+                        + Adicionar Camisetas
+                    </button>
+                </div>
+            
+                <div class="epi-group">
+                    <h4>Calças</h4>
+                    <div id="epi-calcas"></div>
+                    <button type="button" class="btn-add-epi" onclick="addEpiLinha('calcas')">
+                        + Adicionar Calças
+                    </button>
+                </div>
+            
+                <div class="epi-group">
+                    <h4>EPIs Diversos</h4>
+                    <div id="epi-epis"></div>
+                    <button type="button" class="btn-add-epi" onclick="addEpiLinha('epis')">
+                        + Adicionar EPI
+                    </button>
+                </div>
+            </section>
+
+
+
+            <section class="form-section full">
+                <h3>Atividades e Observações</h3>
+                <div class="row">
+                    <div class="field">
+                        <label>Principais Atividades Concluídas:</label>
+                        <textarea id="atividades"
+                            rows="4">Planilha de controle (Drive)&#10;Relatórios&#10;Whatsapp recrutamento e seleção&#10;recepção da integração&#10;separação de uniforme para novos colaboradores</textarea>
+                    </div>
+                    <div class="field">
+                        <label>Pendências Próximo Dia:</label>
+                        <textarea id="pendencias"
+                            rows="4">Whatsapp&#10;Planilha de controle (Drive)&#10;Recrutamento e seleção&#10;relatórios</textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="field">
+                        <label>Dificuldades Encontradas:</label>
+                        <textarea id="dificuldades" rows="3" placeholder="Vazio por padrão..."></textarea>
+                    </div>
+                    <div class="field">
+                        <label>Sugestões de Melhoria:</label>
+                        <textarea id="sugestoes"
+                            rows="3" placeholder="Vazio por padrão..."></textarea>
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Observações Gerais:</label>
+                    <textarea id="obs_gerais" rows="2" placeholder="Qualquer informação adicional..."></textarea>
+                </div>
+            </section>
+        </div>
+
+        <button class="btn-primary" onclick="gerarRelatorio()">GERAR RELATÓRIO PROFISSIONAL</button>
+    </div>
+
+    <div id="pdf-report">
+        <div class="page">
+            <div class="watermark"><img src="logo.png" alt="Logo da empresa"></div>
+            <h1 class="report-title">Relatório de Recrutamento e Seleção</h1>
+            <p class="intro-text">Este relatório tem como finalidade apresentar, de forma estruturada, as etapas do
+                processo de recrutamento e seleção conduzido para a vaga de <strong class="out-vaga"></strong>,
+                demonstrando os resultados obtidos, a aderência dos candidatos ao perfil solicitado e a recomendação
+                final para preenchimento da posição.</p>
+
+            <div class="info-block">
+                <p><strong>Vaga:</strong> <span class="out-vaga"></span><br>
+                    <strong>Período do Processo:</strong> <span id="out-periodo"></span><br>
+                    <strong>Responsável:</strong> PUPA MATRIZ-RH
+                </p>
+            </div>
+
+            <ul class="stats-list">
+                <li>CURRÍCULOS TRIADOS: <span id="out-triados"></span></li>
+                <li>ENTREVISTAS REALIZADAS: <span id="out-entrevistas"></span></li>
+                <li>CANDIDATOS FINALISTAS: <span id="out-finalistas"></span></li>
+                <li>CANDIDATOS DESISTENTES: <span id="out-desistentes"></span></li>
+                <li>CANDIDATOS INAPTOS: <span id="out-inaptos"></span></li>
+                <li>ENCAMINHADOS PARA ANTECEDENTES: <span id="out-antecedentes"></span></li>
+            </ul>
+
+            <h3>CANDIDATOS:</h3>
+            <div id="out-candidatos-lista" class="cand-list"></div>
+
+            <p class="data-line"><strong>Data:</strong> <span id="out-data"></span></p>
+            <p><strong>Observações:</strong> <span id="out-obs-gerais"></span></p>
+        </div>
+
+        <div class="page">
+            <div class="watermark"><img src="logo.png" alt="Logo da empresa"></div>
+            <h3>RECRUTAMENTO E SELEÇÃO (DETALHES)</h3>
+            <div class="details-grid">
+                <p>
+                    Vagas em aberto: <span id="out-rs_vagas_aberto"></span><br>
+                    Candidatos abordados: <span id="out-rs_abordados"></span><br>
+                    Candidatos aprovados: <span id="out-rs_aprovados"></span><br>
+                    Candidatos reprovados: <span id="out-rs_reprovados"></span><br>
+                    Enviado para antecedentes: <span id="out-rs_antecedentes"></span><br>
+                    Aprovado no antecedentes: <span id="out-rs_aprovados_antecedentes"></span><br>
+                    Enviados para exame: <span id="out-rs_exame"></span><br>
+                    Integração: <span id="out-rs_integracao"></span><br>
+                    Demissão: <span id="out-rs_demissao"></span><br>
+                    Quantidade solicitada: <span id="out-rs_qtd_solicitada"></span><br>
+                    Enviados: <span id="out-rs_enviados"></span>
+                </p>
+            </div>
+
+
+            <div class="divider"></div>
+            <p><strong>Status:</strong> (Concluído / Em andamento / Pendente)</p>
+            <p><strong>Controle de EPI´s:</strong></p>
+            <ul id="out-epis"></ul>
+
+
+            <p><strong>Ativos:</strong> Planilha Drive</p>
+
+            <h3>RESUMO DO DIA</h3>
+            <p><strong>Principais atividades concluídas:</strong></p>
+            <ul id="out-atividades"></ul>
+
+            <p><strong>Pendências para o próximo dia:</strong></p>
+            <ul id="out-pendencias"></ul>
+
+            <p><strong>Dificuldades encontradas:</strong></p>
+            <ul id="out-dificuldades"></ul>
+
+            <p><strong>Sugestões de melhoria:</strong></p>
+            <ul id="out-sugestoes"></ul>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <footer class="footer">
+        Sistema desenvolvido por <strong>Oreon Soluções em Tecnologia</strong> ©
+        <span id="ano-atual"></span><br>
+        Soluções inteligentes para negócios modernos
+    </footer>
+
+</body>
+
+</html>
