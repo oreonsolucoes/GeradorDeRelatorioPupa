@@ -341,3 +341,22 @@ select {
         margin: 0;
     }
 }
+
+/* FALTAS E ATESTADOS */
+.falta-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.falta-row input {
+    flex: 1;
+}
+
+.falta-row .btn-del {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    font-weight: bold;
+}
