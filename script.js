@@ -45,11 +45,16 @@ function gerarRelatorio() {
     // 2. Números
     const nums = ['triados', 'entrevistas', 'finalistas', 'desistentes', 'inaptos', 'antecedentes', 'vagas_aberto', 'aprovados', 'reprovados'];
     nums.forEach(id => {
-        const val = document.getElementById(id).value;
+        const input = document.getElementById(id);
         const out = document.getElementById('out-' + id);
-        if (out) out.innerText = val;
-       
+
+        if (!input || !out) return;
+
+        out.innerText = input.value;
     });
+
+
+
 
     // 3. Lista de Candidatos
     const listaHtml = [];
@@ -85,13 +90,38 @@ function gerarRelatorio() {
 
     // 4. Textos em Tópicos
     const textAreas = ['atividades', 'pendencias', 'dificuldades', 'sugestoes'];
+
     textAreas.forEach(id => {
-        const lines = document.getElementById(id).value.split('\n');
+        const input = document.getElementById(id);
         const out = document.getElementById('out-' + id);
-        out.innerHTML = lines.filter(l => l.trim() !== "").map(l => `<li>${l}</li>`).join('');
+
+        if (!input || !out) return;
+
+        const lines = input.value.split('\n');
+        out.innerHTML = lines
+            .filter(l => l.trim() !== "")
+            .map(l => `<li>${l}</li>`)
+            .join('');
     });
 
+
     document.getElementById('out-obs-gerais').innerText = document.getElementById('obs_gerais').value;
+    // ===== FALTAS E ATESTADOS =====
+    const faltas = [];
+    document.querySelectorAll('.falta-nome').forEach(input => {
+        if (input.value.trim() !== "") {
+            faltas.push(`<li>${input.value}</li>`);
+        }
+    });
+
+    document.getElementById('out-faltas').innerHTML =
+        faltas.length ? faltas.join('') : '<li>Sem registros no dia.</li>';
+
+    // Data do título
+    const hojeFalta = new Date();
+    const ddF = String(hojeFalta.getDate()).padStart(2, '0');
+    const mmF = String(hojeFalta.getMonth() + 1).padStart(2, '0');
+    document.getElementById('out-faltas-data').innerText = `${ddF}/${mmF}`;
 
     // 5. Controle de EPIs 
     const epiLabels = {
@@ -129,6 +159,22 @@ function gerarRelatorio() {
     document.title = nomeArquivo;
     window.print();
 }
+
+function addFalta(nome = "") {
+    const container = document.getElementById('container-faltas');
+
+    const div = document.createElement('div');
+    div.className = 'falta-row';
+
+    div.innerHTML = `
+        <input type="text" class="falta-nome" value="${nome}" placeholder="Nome do colaborador">
+        <button class="btn-del" onclick="this.parentElement.remove()">X</button>
+    `;
+
+    container.appendChild(div);
+}
+
+
 
 function addEpiLinha(tipo) {
     const container = document.getElementById(`epi-${tipo}`);
