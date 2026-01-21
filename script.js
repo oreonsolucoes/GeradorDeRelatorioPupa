@@ -31,6 +31,32 @@ function addCandidato(nome = "", status = "INAPTO") {
     container.appendChild(div);
 }
 
+function processarLista(tipo, labelVazio) {
+    const outLista = document.getElementById(`out-${tipo}`);
+    const outData = document.getElementById(`out-${tipo}-data`);
+
+    if (!outLista || !outData) return;
+
+    const lista = [];
+
+    document.querySelectorAll(`.${tipo}-nome`).forEach(input => {
+        if (input.value.trim() !== "") {
+            lista.push(`<li>${input.value}</li>`);
+        }
+    });
+
+    outLista.innerHTML =
+        lista.length ? lista.join('') : `<li>${labelVazio}</li>`;
+
+    const hoje = new Date();
+    const dia = String(hoje.getDate()).padStart(2, '0');
+    const mes = String(hoje.getMonth() + 1).padStart(2, '0');
+
+    outData.innerText = `${dia}/${mes}`;
+}
+
+
+
 function gerarRelatorio() {
     // 1. Dados Básicos
     const vaga = document.getElementById('vaga').value;
@@ -52,9 +78,6 @@ function gerarRelatorio() {
 
         out.innerText = input.value;
     });
-
-
-
 
     // 3. Lista de Candidatos
     const listaHtml = [];
@@ -88,6 +111,8 @@ function gerarRelatorio() {
     });
 
 
+    
+    
     // 4. Textos em Tópicos
     const textAreas = ['atividades', 'pendencias', 'dificuldades', 'sugestoes'];
 
@@ -106,22 +131,20 @@ function gerarRelatorio() {
 
 
     document.getElementById('out-obs-gerais').innerText = document.getElementById('obs_gerais').value;
-    // ===== FALTAS E ATESTADOS =====
-    const faltas = [];
-    document.querySelectorAll('.falta-nome').forEach(input => {
-        if (input.value.trim() !== "") {
-            faltas.push(`<li>${input.value}</li>`);
-        }
-    });
+    
 
-    document.getElementById('out-faltas').innerHTML =
-        faltas.length ? faltas.join('') : '<li>Sem registros no dia.</li>';
+
+
+    processarLista('faltas-diurno', 'Sem faltas no período.');
+    processarLista('faltas-noturno', 'Sem faltas no período.');
+    processarLista('atestados', 'Sem atestados no período.');
+
 
     // Data do título
     const hojeFalta = new Date();
     const ddF = String(hojeFalta.getDate()).padStart(2, '0');
     const mmF = String(hojeFalta.getMonth() + 1).padStart(2, '0');
-    document.getElementById('out-faltas-data').innerText = `${ddF}/${mmF}`;
+    
 
     // 5. Controle de EPIs 
     const epiLabels = {
@@ -150,29 +173,62 @@ function gerarRelatorio() {
         epiRelatorio.length ? epiRelatorio.join('') : '<li>Sem entrega de EPI no período.</li>';
 
 
-    // ===== NOME DO PDF =====
+    // ===== DATAS FALTAS E ATESTADOS =====
     const hoje = new Date();
+
+    const ontem = new Date(hoje);
+    ontem.setDate(hoje.getDate() - 1);
+
+    function formatarDataBR(data) {
+        const dia = String(data.getDate()).padStart(2, '0');
+        const mes = String(data.getMonth() + 1).padStart(2, '0');
+        return `${dia}/${mes}`;
+    }
+
+    // Faltas diurno → hoje
+    const outFaltasDiurnoData = document.getElementById('out-faltas-diurno-data');
+    if (outFaltasDiurnoData) {
+        outFaltasDiurnoData.innerText = formatarDataBR(hoje);
+    }
+
+    // Faltas noturno → ontem
+    const outFaltasNoturnoData = document.getElementById('out-faltas-noturno-data');
+    if (outFaltasNoturnoData) {
+        outFaltasNoturnoData.innerText = formatarDataBR(ontem);
+    }
+
+    // Atestados → hoje
+    const outAtestadosData = document.getElementById('out-atestados-data');
+    if (outAtestadosData) {
+        outAtestadosData.innerText = formatarDataBR(hoje);
+    }
+
+
+
+    // ===== NOME DO PDF =====
     const dia = String(hoje.getDate()).padStart(2, '0');
     const mes = String(hoje.getMonth() + 1).padStart(2, '0');
 
     const nomeArquivo = `Relatório Diário Recrutamento&Seleção Laryssa ${dia}-${mes}`;
     document.title = nomeArquivo;
     window.print();
-}
+}   
 
-function addFalta(nome = "") {
-    const container = document.getElementById('container-faltas');
+
+function addRegistro(tipo) {
+    const container = document.getElementById(`container-${tipo}`);
 
     const div = document.createElement('div');
     div.className = 'falta-row';
 
     div.innerHTML = `
-        <input type="text" class="falta-nome" value="${nome}" placeholder="Nome do colaborador">
+        <input type="text" class="${tipo}-nome" placeholder="Nome do colaborador">
         <button class="btn-del" onclick="this.parentElement.remove()">X</button>
     `;
 
     container.appendChild(div);
 }
+
 
 
 
