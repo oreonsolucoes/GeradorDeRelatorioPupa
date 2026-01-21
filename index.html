@@ -126,12 +126,25 @@
             <section class="form-section">
                 <h3>Faltas e Atestados</h3>
             
-                <div id="container-faltas"></div>
+                <h4>Faltas (Diurno)</h4>
+                <div id="container-faltas-diurno"></div>
+                <button type="button" class="btn-add" onclick="addRegistro('faltas-diurno')">
+                    + Adicionar Nome
+                </button>
             
-                <button type="button" class="btn-add" onclick="addFalta()">
+                <h4 style="margin-top:15px;">Faltas (Noturno)</h4>
+                <div id="container-faltas-noturno"></div>
+                <button type="button" class="btn-add" onclick="addRegistro('faltas-noturno')">
+                    + Adicionar Nome
+                </button>
+            
+                <h4 style="margin-top:15px;">Atestados</h4>
+                <div id="container-atestados"></div>
+                <button type="button" class="btn-add" onclick="addRegistro('atestados')">
                     + Adicionar Nome
                 </button>
             </section>
+
 
 
             <section class="form-section">
@@ -260,8 +273,15 @@
 
 
             <div class="divider"></div>
-            <h3>FALTAS E ATESTADOS – DIA <span id="out-faltas-data"></span></h3>
-            <ul id="out-faltas"></ul>
+            <h3>FALTAS – <span id="out-faltas-diurno-data"></span></h3>
+            <ul id="out-faltas-diurno"></ul>
+            
+            <h3>FALTAS NOTURNO – <span id="out-faltas-noturno-data"></span></h3>
+            <ul id="out-faltas-noturno"></ul>
+            
+            <h3>ATESTADOS – <span id="out-atestados-data"></span></h3>
+            <ul id="out-atestados"></ul>
+
 
             <p><strong>Controle de EPI´s:</strong></p>
             <ul id="out-epis"></ul>
