@@ -241,10 +241,11 @@ function addEpiLinha(tipo) {
     div.innerHTML = `
         <input type="text" placeholder="Tamanho, cor, modelo...">
         <select>
-            ${Array.from({ length: 20 }, (_, i) => `<option value="${i}">${i}</option>`).join('')}
+            ${Array.from({ length: 50 }, (_, i) => `<option value="${i}">${i}</option>`).join('')}
         </select>
         <button type="button" class="btn-del-epi" onclick="this.parentElement.remove()">X</button>
     `;
 
     container.appendChild(div);
 }
+
